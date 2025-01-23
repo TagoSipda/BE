@@ -26,9 +26,10 @@ class BusStopQuery(graphene.ObjectType):
 
     def resolve_search_bus_stops(self, info, name=None, lat=None, lng=None, top_k=5):
         # 여기에 검색 로직 추가
+        # print(id)
         return [
             BusStopType(
-                id=id,
+                id=1,
                 name="Sample Stop",
                 lat=37.33,
                 lng=126.12,
@@ -36,7 +37,7 @@ class BusStopQuery(graphene.ObjectType):
                 stop_bus_routes=[],
             ),
             BusStopType(
-                id=id,
+                id=2,
                 name="Sample Stop",
                 lat=37.33,
                 lng=126.12,

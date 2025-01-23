@@ -1,10 +1,11 @@
 import graphene
 
-from app.interfaces.input.v1.graphql.resolvers.type.bus_stop import BusStopType
-
 
 class BusStopStateType(graphene.ObjectType):
-    stop = graphene.Field(lambda: BusStopType, required=True)
+    stop = graphene.Field(
+        "app.interfaces.input.v1.graphql.resolvers.type.bus_stop.BusStopType",
+        required=True,
+    )
     state = graphene.Int(required=True)
     first_car_time = graphene.String(required=True)
     last_car_time = graphene.String(required=True)

@@ -1,10 +1,11 @@
 import graphene
 
-from app.interfaces.input.v1.graphql.resolvers.type.bus_route import BusRouteType
-
 
 class BusArrivalInfoType(graphene.ObjectType):
-    bus_route = graphene.Field(lambda: BusRouteType, required=True)
+    bus_route = graphene.Field(
+        "app.interfaces.input.v1.graphql.resolvers.type.bus_route.BusRouteType",
+        required=True,
+    )
     next_bus_stop_name = graphene.String(required=True)
     first_estimated_arrival_time = graphene.Int(required=True)
     second_estimated_arrival_time = graphene.Int(required=True)
@@ -22,4 +23,9 @@ class BusStopType(graphene.ObjectType):
     lat = graphene.Float(required=True)
     lng = graphene.Float(required=True)
     arrivals = graphene.NonNull(graphene.List(lambda: BusArrivalInfoType))
-    stop_bus_routes = graphene.NonNull(graphene.List(lambda: BusRouteType))
+    stop_bus_routes = graphene.NonNull(
+        graphene.List(
+            "app.interfaces.input.v1.graphql.resolvers.type.bus_route.BusRouteType",
+            required=True,
+        )
+    )
