@@ -1,21 +1,14 @@
-import graphene
+import strawberry
+from typing import List, Optional
+from app.interfaces.input.v1.graphql.resolvers.type.bus_stop import BusStop
 
-from app.interfaces.input.v1.graphql.resolvers.type.bus_stop import BusStopType
 
-
-class BusStopQuery(graphene.ObjectType):
-    bus_stop = graphene.Field(BusStopType, id=graphene.Int(required=True))
-    search_bus_stops = graphene.List(
-        BusStopType,
-        name=graphene.String(),
-        lat=graphene.Float(),
-        lng=graphene.Float(),
-        top_k=graphene.Int(required=True),
-    )
-
-    def resolve_bus_stop(self, info, id):
+@strawberry.type
+class BusStopQuery:
+    @strawberry.field
+    def bus_stop(self, id: int) -> BusStop:
         # 여기에 실제 데이터베이스 조회 로직 추가
-        return BusStopType(
+        return BusStop(
             id=id,
             name="Sample Stop",
             lat=37.33,
@@ -24,11 +17,17 @@ class BusStopQuery(graphene.ObjectType):
             stop_bus_routes=[],
         )
 
-    def resolve_search_bus_stops(self, info, name=None, lat=None, lng=None, top_k=5):
+    @strawberry.field
+    def search_bus_stops(
+        self,
+        name: Optional[str] = None,
+        lat: Optional[float] = None,
+        lng: Optional[float] = None,
+        top_k: int = 5,
+    ) -> List[BusStop]:
         # 여기에 검색 로직 추가
-        # print(id)
         return [
-            BusStopType(
+            BusStop(
                 id=1,
                 name="Sample Stop",
                 lat=37.33,
@@ -36,7 +35,7 @@ class BusStopQuery(graphene.ObjectType):
                 arrivals=[],
                 stop_bus_routes=[],
             ),
-            BusStopType(
+            BusStop(
                 id=2,
                 name="Sample Stop",
                 lat=37.33,

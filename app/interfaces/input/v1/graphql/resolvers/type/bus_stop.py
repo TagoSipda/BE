@@ -1,31 +1,34 @@
-import graphene
+import strawberry
+from typing import Optional, List, Annotated
 
 
-class BusArrivalInfoType(graphene.ObjectType):
-    bus_route = graphene.Field(
-        "app.interfaces.input.v1.graphql.resolvers.type.bus_route.BusRouteType",
-        required=True,
-    )
-    next_bus_stop_name = graphene.String(required=True)
-    first_estimated_arrival_time = graphene.Int(required=True)
-    second_estimated_arrival_time = graphene.Int(required=True)
-    first_remaining_stops = graphene.Int(required=True)
-    second_remaining_stops = graphene.Int(required=True)
-    first_congestion_level = graphene.Int()  # Optional
-    second_congestion_level = graphene.Int()  # Optional
-    first_remaining_seats = graphene.Int()  # Optional
-    second_remaining_seats = graphene.Int()  # Optional
+@strawberry.type
+class BusArrivalInfo:
+    bus_route: Annotated[
+        "BusRoute",
+        strawberry.lazy(".bus_route"),
+    ]
+    next_bus_stop_name: str
+    first_estimated_arrival_time: int
+    second_estimated_arrival_time: int
+    first_remaining_stops: int
+    second_remaining_stops: int
+    first_congestion_level: Optional[int] = None  # Optional
+    second_congestion_level: Optional[int] = None  # Optional
+    first_remaining_seats: Optional[int] = None  # Optional
+    second_remaining_seats: Optional[int] = None  # Optional
 
 
-class BusStopType(graphene.ObjectType):
-    id = graphene.Int(required=True)
-    name = graphene.String(required=True)
-    lat = graphene.Float(required=True)
-    lng = graphene.Float(required=True)
-    arrivals = graphene.NonNull(graphene.List(lambda: BusArrivalInfoType))
-    stop_bus_routes = graphene.NonNull(
-        graphene.List(
-            "app.interfaces.input.v1.graphql.resolvers.type.bus_route.BusRouteType",
-            required=True,
-        )
-    )
+@strawberry.type
+class BusStop:
+    id: int
+    name: str
+    lat: float
+    lng: float
+    arrivals: List[BusArrivalInfo]
+    stop_bus_routes: List[
+        Annotated[
+            "BusRoute",
+            strawberry.lazy(".bus_route"),
+        ]
+    ]

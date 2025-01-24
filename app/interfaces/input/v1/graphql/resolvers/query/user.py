@@ -1,15 +1,14 @@
-import graphene
+import strawberry
+from app.interfaces.input.v1.graphql.resolvers.type.user import User, UserConfig
 
-from app.interfaces.input.v1.graphql.resolvers.type.user import UserType, UserConfigType
 
-
-class UserQuery(graphene.ObjectType):
-    user = graphene.Field(UserType)
-
-    def resolve_user(self, info):
+@strawberry.type
+class UserQuery:
+    @strawberry.field
+    def user(self) -> User:
         # 여기에 실제 JWT 파싱 로직 추가
-        return UserType(
+        return User(
             id="1",
             provider="kakao",
-            user_config=UserConfigType(font_size=1),
+            user_config=UserConfig(font_size=1),
         )

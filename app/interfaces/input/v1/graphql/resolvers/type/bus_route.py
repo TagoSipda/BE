@@ -1,19 +1,19 @@
-import graphene
+import strawberry
+from typing import Optional, Annotated
 
 
-class BusStopStateType(graphene.ObjectType):
-    stop = graphene.Field(
-        "app.interfaces.input.v1.graphql.resolvers.type.bus_stop.BusStopType",
-        required=True,
-    )
-    state = graphene.Int(required=True)
-    first_car_time = graphene.String(required=True)
-    last_car_time = graphene.String(required=True)
-    car_number = graphene.Int(required=True)
+@strawberry.type
+class BusStopState:
+    stop: Annotated["BusStop", strawberry.lazy(".bus_stop")]
+    state: int
+    first_car_time: str
+    last_car_time: str
+    car_number: int
 
 
-class BusRouteType(graphene.ObjectType):
-    id = graphene.Int(required=True)
-    route_name = graphene.String(required=True)
-    type = graphene.Int(required=True)  # 버스 타입
-    bus_stop_states = graphene.List(lambda: BusStopStateType)
+@strawberry.type
+class BusRoute:
+    id: int
+    route_name: str
+    type: int  # 버스 타입
+    bus_stop_states: Optional[list[BusStopState]]

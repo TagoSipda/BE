@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from starlette_graphene3 import GraphQLApp, make_graphiql_handler
+from strawberry.fastapi import GraphQLRouter
 from contextlib import asynccontextmanager
 import asyncio
 
@@ -20,6 +20,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(docs_url="/docs", openapi_url="/open-api-docs", lifespan=lifespan)
-app.add_route(
-    "/api/v1/graphql", GraphQLApp(schema=schema, on_get=make_graphiql_handler())
-)
+
+# Strawberry GraphQL Router 연결
+graphql_app = GraphQLRouter(schema)
+app.include_router(graphql_app, prefix="/api/v1/graphql")
