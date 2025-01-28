@@ -10,14 +10,12 @@ from app.interfaces.input.v1.graphql.resolvers.mutation.user import UserMutation
 
 @strawberry.type
 class Query(BusStopQuery, BusRouteQuery, UserQuery):
-    """Query Root - 모든 쿼리를 통합"""
 
     pass
 
 
 @strawberry.type
 class Mutation(AuthMutation, UserMutation):
-    """Mutation Root - 모든 뮤테이션을 통합"""
 
     pass
 
