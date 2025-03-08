@@ -23,7 +23,7 @@ def create_entity_projection(entity_class: Type) -> None:
         annotations[f.name] = optional_type
 
     # 클래스 이름 생성
-    dto_name = f"{entity_class.__name__}Projection"
+    projection_name = f"{entity_class.__name__}Projection"
 
     # 클래스 네임스페이스 생성
     namespace = {
@@ -35,21 +35,22 @@ def create_entity_projection(entity_class: Type) -> None:
         namespace[f_name] = None
 
     # 새로운 클래스 동적 생성
-    EntityDTO = type(dto_name, (), namespace)
+    EntityProjection = type(projection_name, (), namespace)
 
     # dataclass 데코레이터 적용
-    EntityDTO = dataclass(EntityDTO)
+    EntityProjection = dataclass(EntityProjection)
 
     # 모듈에 클래스 등록
     module = sys.modules[entity_class.__module__]
-    setattr(module, dto_name, EntityDTO)
+    setattr(module, projection_name, EntityProjection)
 
 
 def projection_factory(cls):
     """
     Entity 클래스에 대한 Projection 클래스를 생성하는 데코레이터
+    (Projection: 부분적 Fetching에 따른 전체 attribute optional화)
     """
-    # Projection 클래스 생성 및 모듈 등록 (부분적 Fetching에 따른 전체 attribute optional화)
+    # Projection 클래스 생성 및 모듈 등록 
     _ = create_entity_projection(cls)
 
     # 원본 클래스 반환
