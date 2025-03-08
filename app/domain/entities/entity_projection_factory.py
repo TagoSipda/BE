@@ -49,7 +49,7 @@ def projection_factory(cls):
     """
     Entity 클래스에 대한 Projection 클래스를 생성하는 데코레이터
     """
-    # DTO 클래스 생성 및 모듈 등록
+    # Projection 클래스 생성 및 모듈 등록 (부분적 Fetching에 따른 전체 attribute optional화)
     _ = create_entity_projection(cls)
 
     # 원본 클래스 반환
