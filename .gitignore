@@ -2,5 +2,4 @@ adhoc/**
 adhoc
 __pycache__
 **/__pycache__
-tagosipda_be.egg-info/** 
 *.erd
